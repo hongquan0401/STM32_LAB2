@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "softwareTimer.h"
 #include "display_7seg.h"
+#include "update7SEG.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,7 +103,8 @@ int main(void)
   HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
   HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
   HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, SET);
-  int status = 1;
+  int led_idx = 0;
+  const int MAX_LED = 4;
   while (1)
   {
     /* USER CODE END WHILE */
@@ -110,42 +112,9 @@ int main(void)
 		  setTimer1(DURATON);
 		  //TODO
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-		  switch (status) {
-			case 1:
-				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-				display(status);
-				status = 2;
-				break;
-			case 2:
-				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-				display(status);
-				status = 3;
-				break;
-			case 3:
-				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
-				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-				display(status);
-				status = 4;
-				break;
-			case 4:
-				HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-				HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-				HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-				HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
-				display(status);
-				status = 1;
-				break;
-			default:
-				break;
-		}
+		  if (led_idx >= MAX_LED) led_idx = 0;
+		  update7seg(led_idx);
+		  led_idx++;
 	  }
     /* USER CODE BEGIN 3 */
   }
