@@ -34,7 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define DURATON 500
+#define DURATON 250
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
