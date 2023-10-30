@@ -9,31 +9,39 @@
 #include "update7SEG.h"
 #include "main.h"
 
-int led_buffer[4] = {1, 2, 3, 4};
-
+int clock_buffer[4] = {0, 0, 0, 0};
+int hour = 6, min = 3, sec = 50;
 void update7seg(int idx) {
 	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
 	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+	updateClockBuffer();
 	switch (idx) {
 		case 0:
 			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-			display(led_buffer[0]);
+			display(clock_buffer[0]);
 			break;
 		case 1:
 			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-			display(led_buffer[1]);
+			display(clock_buffer[1]);
 			break;
 		case 2:
 			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
-			display(led_buffer[2]);
+			display(clock_buffer[2]);
 			break;
 		case 3:
 			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
-			display(led_buffer[3]);
+			display(clock_buffer[3]);
 			break;
 		default:
 			break;
 	}
+}
+
+void updateClockBuffer(){
+	clock_buffer[0] = hour / 10;
+	clock_buffer[1] = hour % 10;
+	clock_buffer[2] = min / 10;
+	clock_buffer[3] = min % 10;
 }

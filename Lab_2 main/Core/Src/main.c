@@ -34,7 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define DURATON 500
+#define DURATON 250
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -97,7 +97,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(DURATON);
+  setTimer1(500); // toggle DOT
+  setTimer2(1000); // update clock
+  setTimer3(50); // scan led
   HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
   HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
   HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
@@ -109,9 +111,27 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  if (timer1_flag == 1) {
-		  setTimer1(DURATON);
-		  //TODO
+		  setTimer1(500);
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+	  }
+	  if (timer2_flag == 1){
+		  setTimer2(1000);
+		  sec++;
+		  if (sec >= 60){
+			  sec = 0;
+			  min++;
+		  }
+		  if (min >= 60){
+			  min = 0;
+			  hour++;
+		  }
+		  if (hour >= 24){
+			  hour = 0;
+		  }
+		  updateClockBuffer();
+	  }
+	  if (timer3_flag == 1){
+		  setTimer3(50);
 		  if (led_idx >= MAX_LED) led_idx = 0;
 		  update7seg(led_idx);
 		  led_idx++;
@@ -245,6 +265,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	timer1Run();
+	timer2Run();
+	timer3Run();
 }
 /* USER CODE END 4 */
 

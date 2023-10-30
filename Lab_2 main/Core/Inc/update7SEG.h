@@ -8,6 +8,9 @@
 #ifndef INC_UPDATE7SEG_H_
 #define INC_UPDATE7SEG_H_
 
+int hour, min, sec;
+
 void update7seg(int idx);
+void updateClockBuffer();
 
 #endif /* INC_UPDATE7SEG_H_ */
