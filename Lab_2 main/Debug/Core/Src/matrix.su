@@ -1,0 +1,5 @@
+matrix.c:14:10:select_pin	16	static
+matrix.c:18:6:reset_matrix	8	static
+matrix.c:29:6:set_row	8	static
+matrix.c:40:6:updateLEDMatrix	24	static
+matrix.c:89:6:shift_matrix	16	static
